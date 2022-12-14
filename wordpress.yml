@@ -1,0 +1,20 @@
+---
+
+- hosts: prod
+  become: true
+
+  vars:
+    system_user: admin
+  
+  vars_files:
+    - files/secrets/credentials.yml
+
+  pre_tasks:
+    - name: Create user www-data
+      user: name=www-data state=present
+
+  roles:
+    - { role: ansible-role-containerized-wordpress }
+
+
+ 

@@ -4,18 +4,19 @@
   hosts: prod     # On the group Prod
   become: true    # To use privilege escalation
 
-
+  vars_files:     # Location variable password 
+    - files/secrets/credentials.yml  
 
   pre_tasks:
     - name: Install packages 
-      package: name='{{ item }}' state=present
-      when: ansible_distribution == "CentOS"
+      package: name='{{ item }}' state=present # Loop on package
+      when: ansible_distribution == "CentOS"   # To specify distrib
       loop:
         - epel-release
         - wget
         - git
 
-    - name: download pip script
+    - name: download pip script                
       get_url:
         url: https://bootstrap.pypa.io/pip/2.7/get-pip.py
         dest: /tmp/get-pip.py
@@ -38,7 +39,7 @@
       docker_container:
         name: webapp
         image: httpd
-        ports:
+        ports:         # Port binding
           - "80:80"
-        volumes:
+        volumes:       # Volume shared host/docker
           - /home/admin/index.html:/usr/local/apache2/htdocs/index.html
