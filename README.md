@@ -1,4 +1,4 @@
-# Install Apache in a docker container with Ansible
+# Install Apache with docker container using Ansible
 
 ## Requirements
 
